@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: 'https://ecommerce-2-hmw7.onrender.com/',
+    origin: 'https://ecommerce-2-hmw7.onrender.com',
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
