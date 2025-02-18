@@ -27,21 +27,29 @@ mongoose
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const cors = require("cors");
+
 app.use(
   cors({
-    origin: 'https://ecommerce-2-hmw7.onrender.com',
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Cache-Control",
-      "Expires",
-      "Pragma",
-    ],
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        "https://ecommerce-2-hmw7.onrender.com",
+        "http://localhost:3000",
+      ];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
+// Ensure preflight requests (`OPTIONS`) are handled properly
+app.options("*", cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRouter);
